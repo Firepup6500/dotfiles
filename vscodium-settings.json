@@ -10,5 +10,12 @@
     "editor.wordWrap": "on",
     "editor.codeActions.triggerOnFocusChange": true,
     "window.zoomLevel": -1,
-    "editor.fontSize": 12
+    "editor.fontSize": 12,
+    "workbench.commandPalette.experimental.suggestCommands": true,
+    "workbench.list.horizontalScrolling": true,
+    "workbench.welcomePage.walkthroughs.openOnInstall": false,
+    "window.customTitleBarVisibility": "windowed",
+    "accessibility.dimUnfocused.enabled": true,
+    "accessibility.underlineLinks": true,
+    "debug.confirmOnExit": "always"
 }

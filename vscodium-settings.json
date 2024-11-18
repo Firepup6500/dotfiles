@@ -1,0 +1,14 @@
+{
+    "workbench.colorTheme": "Matrixish",
+    "debug.console.fontSize": 12,
+    "terminal.integrated.fontSize": 12,
+    "chat.editor.fontSize": 12,
+    "markdown.preview.fontSize": 12,
+    "files.autoSave": "afterDelay",
+    "editor.cursorStyle": "block",
+    "editor.multiCursorModifier": "ctrlCmd",
+    "editor.wordWrap": "on",
+    "editor.codeActions.triggerOnFocusChange": true,
+    "window.zoomLevel": -1,
+    "editor.fontSize": 12
+}

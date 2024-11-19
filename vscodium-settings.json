@@ -17,5 +17,15 @@
     "window.customTitleBarVisibility": "windowed",
     "accessibility.dimUnfocused.enabled": true,
     "accessibility.underlineLinks": true,
-    "debug.confirmOnExit": "always"
+    "debug.confirmOnExit": "always",
+    "scm.alwaysShowRepositories": true,
+    "scm.diffDecorationsGutterPattern": {
+        "added": true
+    },
+    "extensions.closeExtensionDetailsOnViewChange": true,
+    "terminal.integrated.cursorBlinking": true,
+    "terminal.integrated.enableVisualBell": true,
+    "problems.showCurrentInStatus": true,
+    "chat.editor.wordWrap": "on",
+    "security.workspace.trust.startupPrompt": "always"
 }

@@ -1,1 +1,1 @@
-sudo apt install i3-wm i3status i3lock suckless-tools -y
+sudo apt install i3-wm i3status i3lock suckless-tools nitrogen -y

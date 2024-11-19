@@ -32,8 +32,11 @@ exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock -efp win --nofork 
 # and nm-applet is a desktop environment-independent system tray GUI for it.
 exec --no-startup-id nm-applet
 
-# Set a background, it's awkward to just see the lockscreen back there.
-exec --no-startup-id xsetroot -solid '#111111'
+# Set a basic background color, it's awkward to just see the lockscreen back there.
+# exec --no-startup-id xsetroot -solid '#111111'
+
+# Assuming you put background images into /home/yourname/Backgrounds, this next line will get a random one each login and set it as your background :3
+exec --no-startup-id nitrogen --random --set-scaled /home/$(whoami)/Backgrounds
 
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status

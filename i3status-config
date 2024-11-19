@@ -18,14 +18,22 @@ general {
 order += "ipv6"
 order += "wireless _first_"
 order += "ethernet _first_"
-order += "battery all"
+order += "battery _first_"
 order += "disk /"
+order += "cpu_temperature 1"
+order += "cpu_usage"
 order += "load"
 order += "memory"
 order += "tztime local"
+order += "read_file uptime"
+
+ipv6 {
+        format_up = "V6: %ip"
+        format_down = "V6: NA"
+}
 
 wireless _first_ {
-        format_up = "W: (%quality at %essid) %ip"
+        format_up = "W: %ip%quality"
         format_down = "W: down"
 }
 
@@ -34,24 +42,46 @@ ethernet _first_ {
         format_down = "E: down"
 }
 
-battery all {
+battery _first_ {
         format = "%status %percentage %remaining"
+        format_down = "!!! NO BAT"
+        status_chr = "CHR"
+        status_bat = "BAT"
+        status_unk = "UNK"
+        status_full = "FUL"
+        low_threshold = "5"
+        threshold_type = "time"
 }
 
 disk "/" {
-        format = "%avail"
+        format = "DISK: %used/%total"
+}
+
+cpu_temperature 1 {
+        format = "CTMP: %degrees °C"
+        path = "/sys/devices/platform/coretemp.0/hwmon/hwmon4/temp1_input"
+}
+
+cpu_usage {
+        format = "CUSG: %usage"
 }
 
 load {
-        format = "%1min"
+        format = "LOAD: %1min"
 }
 
 memory {
-        format = "%used | %available"
+        format = "RAM: %used/%total"
         threshold_degraded = "1G"
-        format_degraded = "MEMORY < %available"
+        format_degraded = "RAM: < %available"
 }
 
 tztime local {
         format = "%Y-%m-%d %H:%M:%S"
+}
+
+read_file uptime {
+        format = "UP: %content"
+        format_bad = "UP: %errno - %error"
+        path = "/proc/uptime"
 }

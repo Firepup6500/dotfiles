@@ -15,17 +15,23 @@ general {
   interval = 1
 }
 
+order += "volume master"
 order += "ipv6"
 order += "wireless _first_"
 order += "ethernet _first_"
 order += "battery _first_"
 order += "disk /"
-order += "cpu_temperature 1"
 order += "cpu_usage"
+order += "cpu_temperature _first_"
 order += "load"
 order += "memory"
 order += "tztime local"
 order += "read_file uptime"
+
+volume master {
+        format = "VOL: %volume"
+        format_muted = "MUT: %volume"
+}
 
 ipv6 {
         format_up = "V6: %ip"
@@ -33,7 +39,7 @@ ipv6 {
 }
 
 wireless _first_ {
-        format_up = "W: %ip%quality"
+        format_up = "W: %ip (%bitrate)"
         format_down = "W: down"
 }
 
@@ -43,46 +49,48 @@ ethernet _first_ {
 }
 
 battery _first_ {
-        format = "%status %percentage %remaining"
+        format = "BAT: %status %percentage %remaining"
         format_down = "!!! NO BAT"
         status_chr = "CHR"
         status_bat = "BAT"
         status_unk = "UNK"
         status_full = "FUL"
-        low_threshold = "5"
-        threshold_type = "time"
-        last_full_capacity = true
+        status_idle = "IDL"
+        low_threshold = "25"
 }
 
 disk "/" {
-        format = "DISK: %used/%total"
-}
-
-cpu_temperature 1 {
-        format = "CTMP: %degrees °C"
-        path = "/sys/devices/platform/coretemp.0/hwmon/hwmon4/temp1_input"
-}
-
-cpu_usage {
-        format = "CUSG: %usage"
-}
-
-load {
-        format = "LOAD: %1min"
-}
-
-memory {
-        format = "RAM: %used/%total"
-        threshold_degraded = "1G"
-        format_degraded = "RAM: < %available"
+        format = "DISK: %used/%total (%percentage_used)"
+        low_threshold = "25"
 }
 
 tztime local {
         format = "%Y-%m-%d %H:%M:%S"
 }
 
+cpu_usage {
+        format = "CPU: %usage"
+        degraded_threshold = "50"
+        max_threshold = "75"
+}
+
+cpu_temperature _first_ {
+        format = "TEMP: %degrees °C"
+        path = "/sys/devices/platform/coretemp.0/hwmon/hwmon5/temp1_input"
+}
+
+memory {
+        format = "RAM: %used/%total (%percentage_used)"
+        threshold_degraded = "10%"
+        threshold_critical = "5%"
+        decimals = "2"
+}
+
+load {
+        format = "LOAD: %1min %5min %15min"
+        max_threshold = "1.5"
+}
+
 read_file uptime {
-        format = "UP: %content"
-        format_bad = "UP: %errno - %error"
-        path = "/proc/uptime"
+        path = "/tmp/uptime"
 }

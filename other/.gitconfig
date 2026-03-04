@@ -1,0 +1,28 @@
+# This is Git's per-user configuration file.
+[user]
+# Please adapt and uncomment the following lines:
+        name = Firepup Sixfifty
+        email = firepup650@firepup650.com
+        signingkey = ~/.ssh/id_ed25519
+        useConfigOnly = true
+[advice]
+        addIgnoredFile = false
+[alias]
+        branches = branch -avv
+        rename = branch -m
+        remotes = remote -vv
+        editconfig = config --global --edit
+        master-to-main = branch -m master main
+[commit]
+        gpgsign = true
+[core]
+        autocrlf = input
+        editor = nano
+[gpg]
+        format = ssh
+[init]
+        defaultBranch = main
+[pull]
+        ff = true
+[push]
+        autoSetupRemote = true

@@ -1,0 +1,48 @@
+alias ped="sudo nano"
+alias resource="source /etc/bash.bashrc;source ~/.bashrc"
+alias reexec="exec sudo -iu $(/usr/bin/whoami)"
+alias systemupdate="sudo apt update;sudo apt upgrade -y;sudo apt autoremove -y"
+alias pkill="pkill -e"
+alias blogs="sudo multitail -f /var/log/firebot.out.log /var/log/firebot.err.log"
+#alias rlogs="sudo multitail -f /var/log/radiobot.out.log /var/log/radiobot.err.log"
+alias gformat='black .&&git commit -a -m "Formatting"'
+alias gcommit="git commit -a"
+alias gpush="git push"
+alias gpull="git pull"
+alias gdiff="git diff"
+alias gstatus="git status"
+alias gadd="git add *"
+alias cols='echo $COLUMNS'
+alias rows='echo $LINES'
+alias su="sudo su"
+alias mk="touch"
+alias fails="sudo systemctl list-units --failed"
+alias kick="sudo systemctl restart"
+alias view="sudo journalctl -fu"
+alias terminate="sudo kill -9"
+alias chinfo="sudo chfn"
+alias wakeup="clp;systemupdate;fails"
+alias lah="ls -lah"
+alias sign="gpg --clear-sign"
+alias fig="dig +noall +answer"
+alias myip="echo My ip should be:;ip -j a|jq -r '.[] | select(.ifname==\"wlp1s0\").addr_info[] | select(.family==\"inet\").local'"
+alias audo=sudo
+alias tobin="nc termbin.com 9999"
+alias smtp="nc -vv localhost 25"
+#alias dfix="sudo bash -c 'ip route add 192.168.1.0/24 dev wlan0 metric 1;ip route add 192.168.1.1 dev wlan0 metric 1;ip route add default via 192.168.1.1 dev wlan0 metric 1'"
+#alias addip="sudo ip addr add 192.168.1.122/24 dev wlan0"
+alias potry='PYTHON_KEYRING_BACKEND="keyring.backends.null.Keyring" poetry'
+alias clock="while true;do clear;date +'%a %b %e, %Y%n%T'|figlet -f fire;sleep 1;done"
+alias gitssh="git -c gpg.format=ssh -c user.signingkey=~/.ssh/id"
+alias volume="amixer set Master"
+alias editpa="ped /etc/aliases;sudo postalias -v /etc/aliases;sudo systemctl reload postfix postfix@-"
+alias catpa="cat /etc/aliases"
+alias pstatus="sudo journalctl -fu postfix -u postfix@- -u dovecot"
+alias fu="sudo journalctl -fu"
+alias fallout='OWD=`pwd`;cd ~/projects/fallout-term/;clear;read -p "Press enter to login ";clear;python -Xgil=1 fallout.py;cd $OWD;unset OWD'
+alias don="cat /sys/class/backlight/intel_backlight/max_brightness|sudo tee /sys/class/backlight/intel_backlight/brightness $1>/dev/null"
+alias doff="echo 0|sudo tee /sys/class/backlight/intel_backlight/brightness $1>/dev/null"
+alias mac="ip -j a|jq -r '.[] | select(.ifname=="wlp1s0").address'"
+alias provides="command-not-found --ignore-installed"
+alias bathealth='awk -v full=$(cat /sys/class/power_supply/BAT0/charge_full) -v design=$(cat /sys/class/power_supply/BAT0/charge_full_design) '\''BEGIN { printf "Battery Health: %.2f%%\n", (full / design) * 100 }'\'''
+alias heads='head -n $((LINES-2))'

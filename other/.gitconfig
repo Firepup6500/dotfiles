@@ -13,7 +13,7 @@
     remotes = remote -vv
     editconfig = config --global --edit
     master-to-main = branch -m master main
-	pushall = !git remote -v|grep -vE 'git://|fetch|.bundle'|sed -E 's/^([^\\t]+)\\s+.*/\\1/'|xargs -L1 -P 0 git push
+	pushall = !git remote -v|grep -vE 'git://|fetch|.bundle|^upstream'|sed -E 's/^([^\\t]+)\\s+.*/\\1/'|xargs -L1 -P 0 git push
 [commit]
     gpgsign = true
 [core]

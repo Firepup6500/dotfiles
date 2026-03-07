@@ -31,3 +31,7 @@
     autoSetupRemote = true
 [url "ssh://git@github.com/"]
     pushInsteadOf = https://github.com/
+[log]
+	showSignature = true
+[format]
+	pretty = fuller

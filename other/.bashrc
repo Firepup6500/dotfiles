@@ -115,3 +115,8 @@ if ! shopt -oq posix; then
 fi
 
 export QT_QPA_PLATFORMTHEME=qt6ct
+
+git-file-sizes() {
+  # Taken from: https://stackoverflow.com/a/42544963
+  git rev-list --objects --all --missing=print | git cat-file --batch-check='%(objecttype) %(objectname) %(objectsize) %(rest)' | sed -n 's/^blob //p'  | sort --numeric-sort --key=2 | $(command -v gnumfmt || echo numfmt) --field=2 --to=iec-i --suffix=B --padding=7 --round=nearest
+}

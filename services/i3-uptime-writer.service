@@ -1,0 +1,10 @@
+[Unit]
+Description=Uptime Writer for i3bar
+
+[Service]
+ExecStart=%h/projects/misc-bash-scripts/uptime-loop.sh
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=default.target

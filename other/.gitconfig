@@ -17,6 +17,7 @@
 	find-files = "!f() { args=''; for o in "$@"; do args=\"$args --find-object=$o\"; done; git log --pretty=format:'%C(auto)%h %s' --no-show-signature $args; }; f"
 [commit]
     gpgsign = true
+    template = ~/.config/git/commitTemplate
 [core]
     autocrlf = input
     editor = nano

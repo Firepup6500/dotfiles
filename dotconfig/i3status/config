@@ -52,7 +52,7 @@ battery _first_ {
         format = "BAT: %status %percentage %remaining"
         format_down = "!!! NO BAT"
         status_chr = "CHR"
-        status_bat = "BAT"
+        status_bat = "DSC"
         status_unk = "UNK"
         status_full = "FUL"
         status_idle = "IDL"

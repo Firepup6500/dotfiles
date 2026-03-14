@@ -1,0 +1,10 @@
+HashKnownHosts no
+CanonicalizeHostname yes
+CanonicalDomains banjo-hen.ts.net
+CheckHostIP yes
+HostKeyAlgorithms ssh-ed25519
+ServerAliveInterval 60
+ServerAliveCountMax 4
+
+# This needs to be at the end of the file, because otherwise it overrides per-host specifications (WHY THOUGH)
+User firepup650

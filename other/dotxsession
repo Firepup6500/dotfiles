@@ -1,2 +1,7 @@
 #!/bin/env bash
+# These randomly weren't set for me anymore... make them explicit here
+export XDG_RUNTIME_DIR="/run/user/$(id -u)"
+export DBUS_SESSION_BUS_ADDRESS="unix:path=$XDG_RUNTIME_DIR/bus"
+# Start snixembed for things like tailscale
+snixembed --fork
 exec i3

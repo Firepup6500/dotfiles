@@ -13,8 +13,8 @@
     remotes = remote -vv
     editconfig = config --global --edit
     master-to-main = branch -m master main
-	pushall = !git remote -v|grep -vE 'git://|fetch|.bundle|^upstream'|sed -E 's/^([^\\t]+)\\s+.*/\\1/'|xargs -L1 -P0 git push
-	find-files = "!f() { args=''; for o in "$@"; do args=\"$args --find-object=$o\"; done; git log --pretty=format:'%C(auto)%h %s' --no-show-signature $args; }; f"
+    pushall = !git remote -v|grep -vE 'git://|fetch|.bundle|^upstream'|sed -E 's/^([^\\t]+)\\s+.*/\\1/'|xargs -L1 -P0 git push
+    find-files = "!f() { args=''; for o in "$@"; do args=\"$args --find-object=$o\"; done; git log --pretty=format:'%C(auto)%h %s' --no-show-signature $args; }; f"
 [commit]
     gpgsign = true
     template = ~/.config/git/commitTemplate

@@ -1,2 +1,7 @@
 *customization:	-color
 Xcursor.size: 24
+XTerm.vt100.on4Clicks: all
+XTerm.vt100.printerCommand: xterm -T history -e sh -c 'less <&3' 3<&0
+XTerm.vt100.popOnBell: on
+XTerm.vt100.printFileOnXError: XTermError
+XTerm.hold: true

@@ -144,6 +144,7 @@ bindsym $mod+minus scratchpad show
 
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
+## main workspaces
 set $ws1 "1"
 set $ws2 "2"
 set $ws3 "3"
@@ -154,9 +155,20 @@ set $ws7 "7"
 set $ws8 "8"
 set $ws9 "9"
 set $ws10 "10"
-set $wst "TV"
+## TV workspaces
+set $wst1 "TV"
+set $wst2 "TV 2"
+set $wst3 "TV 3"
+set $wst4 "TV 4"
+set $wst5 "TV 5"
+set $wst6 "TV 6"
+set $wst7 "TV 7"
+set $wst8 "TV 8"
+set $wst9 "TV 9"
+set $wst10 "TV 10"
 
 # switch to workspace
+## main workspaces
 bindsym $mod+1 workspace number $ws1
 bindsym $mod+2 workspace number $ws2
 bindsym $mod+3 workspace number $ws3
@@ -167,9 +179,20 @@ bindsym $mod+7 workspace number $ws7
 bindsym $mod+8 workspace number $ws8
 bindsym $mod+9 workspace number $ws9
 bindsym $mod+0 workspace number $ws10
-bindsym $mod+t workspace $wst
+## TV workspaces
+bindsym $mod+Ctrl+1 workspace $wst1
+bindsym $mod+Ctrl+2 workspace $wst2
+bindsym $mod+Ctrl+3 workspace $wst3
+bindsym $mod+Ctrl+4 workspace $wst4
+bindsym $mod+Ctrl+5 workspace $wst5
+bindsym $mod+Ctrl+6 workspace $wst6
+bindsym $mod+Ctrl+7 workspace $wst7
+bindsym $mod+Ctrl+8 workspace $wst8
+bindsym $mod+Ctrl+9 workspace $wst9
+bindsym $mod+Ctrl+0 workspace $wst10
 
 # move focused container to workspace
+## main workspaces
 bindsym $mod+Shift+1 move container to workspace number $ws1
 bindsym $mod+Shift+2 move container to workspace number $ws2
 bindsym $mod+Shift+3 move container to workspace number $ws3
@@ -179,8 +202,18 @@ bindsym $mod+Shift+6 move container to workspace number $ws6
 bindsym $mod+Shift+7 move container to workspace number $ws7
 bindsym $mod+Shift+8 move container to workspace number $ws8
 bindsym $mod+Shift+9 move container to workspace number $ws9
-bindsym $mod+Shift+0 move container to workspace number $ws10
-bindsym $mod+Shift+t move container to workspace $wst
+bindsym $mod+Shift+0 move container to workspace $ws10
+## TV workspaces
+bindsym $mod+Shift+Ctrl+1 move container to workspace $wst1
+bindsym $mod+Shift+Ctrl+2 move container to workspace $wst2
+bindsym $mod+Shift+Ctrl+3 move container to workspace $wst3
+bindsym $mod+Shift+Ctrl+4 move container to workspace $wst4
+bindsym $mod+Shift+Ctrl+5 move container to workspace $wst5
+bindsym $mod+Shift+Ctrl+6 move container to workspace $wst6
+bindsym $mod+Shift+Ctrl+7 move container to workspace $wst7
+bindsym $mod+Shift+Ctrl+8 move container to workspace $wst8
+bindsym $mod+Shift+Ctrl+9 move container to workspace $wst9
+bindsym $mod+Shift+Ctrl+0 move container to workspace $wst10
 
 # move focued workspace to next output
 bindsym $mod+Shift+period move workspace to output next

@@ -46,5 +46,6 @@ alias mac="ip -j a|jq -r '.[] | select(.ifname=="wlp1s0").address'"
 alias provides="command-not-found --ignore-installed"
 alias bathealth='awk -v full=$(cat /sys/class/power_supply/BAT0/charge_full) -v design=$(cat /sys/class/power_supply/BAT0/charge_full_design) '\''BEGIN { printf "Battery Health: %.2f%%\n", (full / design) * 100 }'\'''
 alias heads='head -n $((LINES-2))'
-alias tvsetup="xrandr --output HDMI-1 --mode 1920x1080 --filter nearest --below eDP-1 && xset -dpms && xset s off"
-alias untvsetup="xrandr --auto && xset dpms && xset s on"
+alias tvsetup="xrandr --output HDMI-1 --mode 1920x1080 --filter nearest --below eDP-1 && xset -dpms && xset s off && xinput map-to-output 'ELAN Touchscreen' eDP-1"
+alias untvsetup="xrandr --auto && xset dpms && xset s on && xinput map-to-output 'ELAN Touchscreen' all"
+alias fucking="sudo"

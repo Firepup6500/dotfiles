@@ -167,6 +167,30 @@ set $wst8 "18:TV 8"
 set $wst9 "19:TV 9"
 set $wst10 "20:TV 10"
 
+# Set default locations for workspaces
+## main workspaces
+workspace $ws1 output eDP-1
+workspace $ws2 output eDP-1
+workspace $ws3 output eDP-1
+workspace $ws4 output eDP-1
+workspace $ws5 output eDP-1
+workspace $ws6 output eDP-1
+workspace $ws7 output eDP-1
+workspace $ws8 output eDP-1
+workspace $ws9 output eDP-1
+workspace $ws10 output eDP-1
+## TV workspaces
+workspace $wst1 output HDMI-1
+workspace $wst2 output HDMI-1
+workspace $wst3 output HDMI-1
+workspace $wst4 output HDMI-1
+workspace $wst5 output HDMI-1
+workspace $wst6 output HDMI-1
+workspace $wst7 output HDMI-1
+workspace $wst8 output HDMI-1
+workspace $wst9 output HDMI-1
+workspace $wst10 output HDMI-1
+
 # switch to workspace
 ## main workspaces
 bindsym $mod+1 workspace number $ws1

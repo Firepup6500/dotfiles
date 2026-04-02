@@ -156,16 +156,16 @@ set $ws8 "8"
 set $ws9 "9"
 set $ws10 "10"
 ## TV workspaces
-set $wst1 "TV"
-set $wst2 "TV 2"
-set $wst3 "TV 3"
-set $wst4 "TV 4"
-set $wst5 "TV 5"
-set $wst6 "TV 6"
-set $wst7 "TV 7"
-set $wst8 "TV 8"
-set $wst9 "TV 9"
-set $wst10 "TV 10"
+set $wst1 "11:TV"
+set $wst2 "12:TV 2"
+set $wst3 "13:TV 3"
+set $wst4 "14:TV 4"
+set $wst5 "15:TV 5"
+set $wst6 "16:TV 6"
+set $wst7 "17:TV 7"
+set $wst8 "18:TV 8"
+set $wst9 "19:TV 9"
+set $wst10 "20:TV 10"
 
 # switch to workspace
 ## main workspaces
@@ -286,6 +286,10 @@ client.placeholder      #222222 #000000 #00FF00 #222222   #222222
 client.background       #000000
 
 bar {
+  # To avoid the TV workspaces getting prefixed with their numbers
+  # I only added the numbers to the TV ones at all in order to fix sorting issues
+  strip_workspace_numbers yes
+
   status_command i3status
   colors {
     background #000000

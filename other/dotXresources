@@ -5,3 +5,4 @@ XTerm.vt100.printerCommand: xterm -T history -e sh -c 'less <&3' 3<&0
 XTerm.vt100.popOnBell: on
 XTerm.vt100.printFileOnXError: XTermError
 XTerm.hold: true
+xterm*iconHint: /usr/local/share/icons/xterm/terminal_16x16

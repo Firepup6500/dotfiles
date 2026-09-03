@@ -39,6 +39,7 @@ exec --no-startup-id nm-applet
 
 # Assuming you put background images into /home/yourname/Backgrounds, this next line will get a random one each login and set it as your background :3
 exec --no-startup-id nitrogen --random --set-scaled /home/$(whoami)/Backgrounds
+bindsym $mod+shift+b exec --no-startup-id nitrogen --random --set-scaled /home/$(whoami)/Backgrounds
 
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status
@@ -108,6 +109,9 @@ bindsym $mod+v split v
 
 # enable window icons for all windows
 for_window [all] title_window_icon on
+
+for_window [class="XEyes"] floating enable, sticky enable, move position mouse
+for_window [title="Quick Command"] floating enable, sticky enable
 
 # override window border to normal
 bindsym $mod+Ctrl+t border normal

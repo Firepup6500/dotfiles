@@ -49,3 +49,4 @@ alias heads='head -n $((LINES-2))'
 alias tvsetup="xrandr --output HDMI-1 --mode 1920x1080 --filter nearest --below eDP-1 && xset -dpms && xset s off && xinput map-to-output 'ELAN Touchscreen' eDP-1"
 alias untvsetup="xrandr --auto && xset dpms && xset s on && xinput map-to-output 'ELAN Touchscreen' all"
 alias fucking="sudo"
+alias no="yes n"

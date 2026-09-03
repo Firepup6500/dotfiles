@@ -30,49 +30,119 @@ shopt -s checkwinsize
 #shopt -s globstar
 
 # make less more friendly for non-text input files, see lesspipe(1)
-#[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+LESS_PROMPT_SUFFIX='?lt lines %lt-%lb?L/%L.. bytes %bt-%bB?B/%B.?pB (%pB\%). ] '
+LESS_PROMPT_PREFIX=' [ '
+export LESS="FRmPm${LESS_PROMPT_PREFIX}?m< file %i of %m > .( ?f%g:stdin. )${LESS_PROMPT_SUFFIX}"
+export LESSEDIT="%E ?lt+%lt. %g"
+# To not hijack man's prompt...
+export MANPAGER="less -M"
+export MANLESS="${LESS_PROMPT_PREFIX}Manual page \$MAN_PN${LESS_PROMPT_SUFFIX}"
+# Systemctl overrides less' options, so we have to override them back
+export SYSTEMD_LESS="${LESS}\$XMPM${LESS_PROMPT_PREFIX}Systemctl${LESS_PROMPT_SUFFIX}"
+# Since we're doing fancy things for man and systemctl...
+# Why not apt and git as well?
+export APT_PAGER="less -XMP'M${LESS_PROMPT_PREFIX}Apt${LESS_PROMPT_SUFFIX}'"
+export GIT_PAGER="less -XMP'M${LESS_PROMPT_PREFIX}Git${LESS_PROMPT_SUFFIX}'"
 
-# set variable identifying the chroot you work in (used in the prompt below)
+# Set some colors for less to use
+# Based on https://gist.github.com/bahamas10/542875bb47990933638d2b7dfaa501bf
+export LESS_TERMCAP_mb=$'\e[5;1;31m'
+export LESS_TERMCAP_md=$'\e[1;31m'
+export LESS_TERMCAP_me=$'\e[0m'
+export LESS_TERMCAP_se=$'\e[0m'
+export LESS_TERMCAP_so=$'\e[7m'
+export LESS_TERMCAP_ue=$'\e[0m'
+export LESS_TERMCAP_us=$'\e[4;1;32m'
+export LESS_TERMCAP_mr=$'\e[7m'
+export LESS_TERMCAP_mh=$'\e[2m'
+export LESS_TERMCAP_ZN=$'\e[74m'
+export LESS_TERMCAP_ZV=$'\e[75m'
+export LESS_TERMCAP_ZO=$'\e[73m'
+export LESS_TERMCAP_ZW=$'\e[75m'
+
+# In order to get groff to output in such a way that less can colorize...
+export GROFF_NO_SGR=1
+
+# Set my defaults
+export PAGER=less
+export BROWSER=w3m
+export EDITOR=nano
+
+# trim taken from https://stackoverflow.com/a/3352015
+trim() {
+    local var="$*"
+    # remove leading whitespace characters
+    var="${var#"${var%%[![:space:]]*}"}"
+    # remove trailing whitespace characters
+    var="${var%"${var##*[![:space:]]}"}"
+    printf '%s' "$var"
+}
+
+# set variable identifying the chroot you work in (used in the prompts below)
 if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
-    debian_chroot=$(cat /etc/debian_chroot)
+    debian_chroot={ cat /etc/debian_chroot }
 fi
 
-# set a fancy prompt (non-color, unless we know we "want" color)
-case "$TERM" in
-    xterm-color|*-256color) color_prompt=yes;;
-esac
-
-# uncomment for a colored prompt, if the terminal has the capability; turned
-# off by default to not distract the user: the focus in a terminal window
-# should be on the output of commands, not on the prompt
-force_color_prompt=yes
-
-if [ -n "$force_color_prompt" ]; then
-    if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
-	# We have color support; assume it's compliant with Ecma-48
-	# (ISO/IEC-6429). (Lack of such support is extremely rare, and such
-	# a case would tend to support setf rather than setaf.)
-	color_prompt=yes
-    else
-	color_prompt=
-    fi
-fi
-
-if [ "$color_prompt" = yes ]; then
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w \$\[\033[00m\] '
+if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
+    # We have color support; assume it's compliant with Ecma-48
+    # (ISO/IEC-6429). (Lack of such support is extremely rare, and such
+    # a case would tend to support setf rather than setaf.)
+    _PS1_COLOR_PROMPT=yes
 else
-    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+    # set a fancy prompt (non-color, unless we know we "want" color)
+    case "$TERM" in
+        xterm-color|*-256color) _PS1_COLOR_PROMPT=yes;;
+        *) _PS1_COLOR_PROMPT=;;
+    esac
 fi
-unset color_prompt force_color_prompt
 
-# If this is an xterm set the title to user@host:dir
 case "$TERM" in
-xterm*|rxvt*)
-    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
-    ;;
-*)
-    ;;
+    xterm*|rxvt*) PS0='\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w \$ [working]\a' ;;
+    *) PS0='' ;;
 esac
+
+if declare -F '__systemd_osc_context_ps0' &> /dev/null; then
+    PS0="${PS0}\$(__systemd_osc_context_ps0)"
+fi
+
+_PS1_COMMAND() {
+    _PROMPT_RET=$?
+    local PS1_RESET PS1_USER_COLOR PS1_DIR_COLOR PS1_CODE_COLOR PS1_TMP PS1_CHROOT
+    PS1_RESET="\[\e[0m\]"
+    PS1_TMP='[$(printf %3s $?)]'
+    PS1_CHROOT="${debian_chroot:+($debian_chroot)}"
+    PS1_CODE_COLOR=''
+    PS1_USER_COLOR=''
+    PS1_DIR_COLOR=''
+    # This is ugly, but I find \\\$ uglier than ${PS1_SYM}
+    PS1_SYM='\$'
+
+    if [ "${_PS1_COLOR_PROMPT}" = "yes" ]; then
+        PS1_USER_COLOR="\[\e[01;32m\]"
+        PS1_DIR_COLOR="\[\e[01;34m\]"
+        if [ "$_PROMPT_RET" -ne 0 ]; then
+            PS1_CODE_COLOR="\[\e[01;31m\]"
+        fi
+    fi
+
+    case "$TERM" in
+        xterm*|rxvt*) PS1_TMP="\[\e]0;${PS1_CHROOT}\u@\h: \w ${PS1_SYM} [idle]\a\]${PS1_TMP}" ;;
+        *) ;;
+    esac
+
+    PS1_TMP="${PS1_RESET}${PS1_CODE_COLOR}${PS1_TMP}${PS1_RESET}"
+    PS1="${PS1_TMP} ${PS1_CHROOT}${PS1_USER_COLOR}\u@\h${PS1_RESET}:${PS1_DIR_COLOR}\w ${PS1_SYM}${PS1_RESET} "
+    unset _PROMPT_RET
+}
+
+PROMPT_COMMAND=_PS1_COMMAND
+# Technically, to be "good" we should unset _PS1_COLOR_PROMPT here
+# but we can't, because that would cause the prompt to never be colored
+# so uh, just deal with a leaked variable I guess
+# _PROMPT_RET is also explicitly unset by us, but, again, there's no way to compensate for that.
+# We *HAVE* to capture $? on the first line of _PS1_COMMAND in order to use it at all
+# Meaning we have to overwrite *SOMETHING* in order to preserve that exit code
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then

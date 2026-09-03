@@ -11,5 +11,8 @@ bind M-F formatter main
 bind M-S linter main
 
 extendsyntax python formatter black
-extendsyntax python linter pylint -ftext --exit-zero
+extendsyntax python linter python-linter
 extendsyntax python tabgives "    "
+
+extendsyntax sh linter shellcheck -f gcc
+extendsyntax sh tabgives "  "

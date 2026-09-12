@@ -2,6 +2,18 @@
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
 
+if false;then
+  # Since nano has a specific default highlighting rule for itself,
+  # we can call out incorrect highlighting like so:
+  printf 'GNU Nano 1.0 "if this text is italic in nano, it is using default highlighting"'>/dev/null
+  # Yes, the text in quotes there is italic on default nano highlighting rules,
+  # and the "GNU Nano 1.0" part is in red
+
+  # Anyhow, if you're using default highlighting here, consider adjusting nano's sh highlighter
+  # (on debian at /usr/share/nano/sh.nanorc)
+  # Alternatively, run nano with the `-Y sh` flag
+fi
+
 # If not running interactively, don't do anything
 case $- in
     *i*) ;;
@@ -24,6 +36,9 @@ HISTFILESIZE=2000
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
+
+# for sanity, force an update of the LINES and COLUMNS vars
+(:)
 
 # If set, the pattern "**" used in a pathname expansion context will
 # match all files and zero or more directories and subdirectories.
@@ -190,3 +205,7 @@ git-file-sizes() {
   # Taken from: https://stackoverflow.com/a/42544963
   git rev-list --objects --all --missing=print | git cat-file --batch-check='%(objecttype) %(objectname) %(objectsize) %(rest)' | sed -n 's/^blob //p'  | sort --numeric-sort --key=2 | $(command -v gnumfmt || echo numfmt) --field=2 --to=iec-i --suffix=B --padding=7 --round=nearest
 }
+
+if [ "$(ps otty= $$)" == "tty7" ];then
+  exec startx
+fi

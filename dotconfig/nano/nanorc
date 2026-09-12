@@ -1,6 +1,7 @@
 include "/usr/share/nano/*.nanorc"
 set atblanks
 set constantshow
+set historylog
 set linenumbers
 set locking
 set showcursor

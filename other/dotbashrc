@@ -44,6 +44,9 @@ shopt -s checkwinsize
 # match all files and zero or more directories and subdirectories.
 #shopt -s globstar
 
+# For mypy, to avoid it generating a new cache per-project, define a per-user cache dir for it
+export MYPY_CACHE_DIR=~/.cache/mypy
+
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 LESS_PROMPT_SUFFIX='?lt lines %lt-%lb?L/%L.. bytes %bt-%bB?B/%B.?pB (%pB\%). ] '

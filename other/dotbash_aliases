@@ -50,3 +50,4 @@ alias tvsetup="xrandr --output HDMI-1 --mode 1920x1080 --filter nearest --below 
 alias untvsetup="xrandr --auto && xset dpms && xset s on && xinput map-to-output 'ELAN Touchscreen' all"
 alias fucking="sudo"
 alias no="yes n"
+alias diff="diff -u --color"

@@ -1,10 +1,14 @@
+# Unlike other config files, this one is only a template, since per-host I may need different configuration here.
+# So this file is a bit more bare than one might expect (e.g. no `Host` blocks)
+
 HashKnownHosts no
 CanonicalizeHostname yes
-CanonicalDomains banjo-hen.ts.net
+CanonicalDomains firenet.internal banjo-hen.ts.net
 CheckHostIP yes
 HostKeyAlgorithms ssh-ed25519
 ServerAliveInterval 60
 ServerAliveCountMax 4
+ExitOnForwardFailure yes
 
 # This needs to be at the end of the file, because otherwise it overrides per-host specifications (WHY THOUGH)
 User firepup650

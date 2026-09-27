@@ -1,6 +1,4 @@
-# This is Git's per-user configuration file.
 [user]
-# Please adapt and uncomment the following lines:
     name = Firepup Sixfifty
     email = firepup650@firepup650.com
     signingkey = ~/.ssh/id_ed25519

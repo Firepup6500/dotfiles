@@ -11,7 +11,7 @@ set unix
 bind M-F formatter main
 bind M-S linter main
 
-extendsyntax python formatter black
+extendsyntax python formatter python-formatter
 extendsyntax python linter python-linter
 extendsyntax python tabgives "    "
 

@@ -2,6 +2,7 @@ include "/usr/share/nano/*.nanorc"
 set atblanks
 set constantshow
 set historylog
+set indicator
 set linenumbers
 set locking
 set showcursor
@@ -17,3 +18,13 @@ extendsyntax python tabgives "    "
 
 extendsyntax sh linter shellcheck -f gcc
 extendsyntax sh tabgives "  "
+
+extendsyntax c linter cc -fanalyzer -Wall -Wextra -o /dev/null
+extendsyntax c tabgives "    "
+
+extendsyntax rust linter rust-linter
+extendsyntax rust tabgives "    "
+
+extendsyntax html tabgives "  "
+
+extendsyntax css tabgives "    "

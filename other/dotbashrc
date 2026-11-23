@@ -1,6 +1,9 @@
+#!/usr/bin/env bash
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
+
+# shellcheck shell=bash
 
 if false;then
   # Since nano has a specific default highlighting rule for itself,
@@ -16,11 +19,9 @@ fi
 
 # If not running interactively, don't do anything
 case $- in
-    *i*) ;;
-      *) return;;
+  *i*) ;;
+  *) return;;
 esac
-
-. /etc/profile
 
 # don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options
@@ -48,7 +49,7 @@ shopt -s checkwinsize
 export MYPY_CACHE_DIR=~/.cache/mypy
 
 # make less more friendly for non-text input files, see lesspipe(1)
-[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+[ -x /usr/bin/lesspipe ] && eval "$(lesspipe)"
 LESS_PROMPT_SUFFIX='?lt lines %lt-%lb?L/%L.. bytes %bt-%bB?B/%B.?pB (%pB\%). ] '
 LESS_PROMPT_PREFIX=' [ '
 export LESS="FRmPm${LESS_PROMPT_PREFIX}?m< file %i of %m > .( ?f%g:stdin. )${LESS_PROMPT_SUFFIX}"
@@ -89,89 +90,91 @@ export EDITOR=nano
 
 # trim taken from https://stackoverflow.com/a/3352015
 trim() {
-    local var="$*"
-    # remove leading whitespace characters
-    var="${var#"${var%%[![:space:]]*}"}"
-    # remove trailing whitespace characters
-    var="${var%"${var##*[![:space:]]}"}"
-    printf '%s' "$var"
+  local var="$*"
+  # remove leading whitespace characters
+  var="${var#"${var%%[![:space:]]*}"}"
+  # remove trailing whitespace characters
+  var="${var%"${var##*[![:space:]]}"}"
+  printf '%s' "$var"
 }
 
 # set variable identifying the chroot you work in (used in the prompts below)
 if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
-    debian_chroot={ cat /etc/debian_chroot }
+  debian_chroot=$(</etc/debian_chroot)
 fi
 
 if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
-    # We have color support; assume it's compliant with Ecma-48
-    # (ISO/IEC-6429). (Lack of such support is extremely rare, and such
-    # a case would tend to support setf rather than setaf.)
-    _PS1_COLOR_PROMPT=yes
+  # We have color support; assume it's compliant with Ecma-48
+  # (ISO/IEC-6429). (Lack of such support is extremely rare, and such
+  # a case would tend to support setf rather than setaf.)
+  _PS1_COLOR_PROMPT=yes
 else
-    # set a fancy prompt (non-color, unless we know we "want" color)
-    case "$TERM" in
-        xterm-color|*-256color) _PS1_COLOR_PROMPT=yes;;
-        *) _PS1_COLOR_PROMPT=;;
-    esac
+  # set a fancy prompt (non-color, unless we know we "want" color)
+  case "$TERM" in
+    xterm-color|*-256color) _PS1_COLOR_PROMPT=yes;;
+    *) _PS1_COLOR_PROMPT=;;
+esac
 fi
 
+# shellcheck disable=SC2016 # We don't want expansion here
 case "$TERM" in
-    xterm*|rxvt*) PS0='\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w \$ [working]\a' ;;
-    *) PS0='' ;;
+  xterm*|rxvt*) PS0='\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w \$ [working]\a' ;;
+  *) PS0='' ;;
 esac
 
 if declare -F '__systemd_osc_context_ps0' &> /dev/null; then
-    PS0="${PS0}\$(__systemd_osc_context_ps0)"
+  PS0="${PS0}\$(__systemd_osc_context_ps0)"
 fi
 
 _PS1_COMMAND() {
-    _PROMPT_RET=$?
-    local PS1_RESET PS1_USER_COLOR PS1_DIR_COLOR PS1_CODE_COLOR PS1_TMP PS1_CHROOT
-    PS1_RESET="\[\e[0m\]"
-    PS1_TMP='[$(printf %3s $?)]'
-    PS1_CHROOT="${debian_chroot:+($debian_chroot)}"
-    PS1_CODE_COLOR=''
-    PS1_USER_COLOR=''
-    PS1_DIR_COLOR=''
-    # This is ugly, but I find \\\$ uglier than ${PS1_SYM}
-    PS1_SYM='\$'
+  local _PROMPT_RET=$? PS1_RESET PS1_USER_COLOR PS1_DIR_COLOR PS1_CODE_COLOR PS1_TMP PS1_CHROOT
+  PS1_RESET="\[\e[0m\]"
+  # shellcheck disable=SC2016 # We don't want expansion here
+  PS1_TMP='[$(printf %3s $?)]'
+  PS1_CHROOT="${debian_chroot:+($debian_chroot)}"
+  PS1_CODE_COLOR=''
+  PS1_USER_COLOR=''
+  PS1_DIR_COLOR=''
+  # This is ugly, but I find \\\$ uglier than ${PS1_SYM}
+  PS1_SYM='\$'
 
-    if [ "${_PS1_COLOR_PROMPT}" = "yes" ]; then
-        PS1_USER_COLOR="\[\e[01;32m\]"
-        PS1_DIR_COLOR="\[\e[01;34m\]"
-        if [ "$_PROMPT_RET" -ne 0 ]; then
-            PS1_CODE_COLOR="\[\e[01;31m\]"
-        fi
+  if [ "${_PS1_COLOR_PROMPT}" = "yes" ]; then
+    PS1_USER_COLOR="\[\e[01;32m\]"
+    PS1_DIR_COLOR="\[\e[01;34m\]"
+    if [ "$_PROMPT_RET" -ne 0 ]; then
+      PS1_CODE_COLOR="\[\e[01;31m\]"
     fi
+  fi
 
-    case "$TERM" in
-        xterm*|rxvt*) PS1_TMP="\[\e]0;${PS1_CHROOT}\u@\h: \w ${PS1_SYM} [idle]\a\]${PS1_TMP}" ;;
-        *) ;;
-    esac
+  case "$TERM" in
+    xterm*|rxvt*) PS1_TMP="\[\e]0;${PS1_CHROOT}\u@\h: \w ${PS1_SYM} [idle]\a\]${PS1_TMP}" ;;
+    *) ;;
+  esac
 
-    PS1_TMP="${PS1_RESET}${PS1_CODE_COLOR}${PS1_TMP}${PS1_RESET}"
-    PS1="${PS1_TMP} ${PS1_CHROOT}${PS1_USER_COLOR}\u@\h${PS1_RESET}:${PS1_DIR_COLOR}\w ${PS1_SYM}${PS1_RESET} "
-    unset _PROMPT_RET
+  PS1_TMP="${PS1_RESET}${PS1_CODE_COLOR}${PS1_TMP}${PS1_RESET}"
+  PS1="${PS1_TMP} ${PS1_CHROOT}${PS1_USER_COLOR}\u@\h${PS1_RESET}:${PS1_DIR_COLOR}\w ${PS1_SYM}${PS1_RESET} "
+  unset _PROMPT_RET
 }
 
 PROMPT_COMMAND=_PS1_COMMAND
 # Technically, to be "good" we should unset _PS1_COLOR_PROMPT here
 # but we can't, because that would cause the prompt to never be colored
 # so uh, just deal with a leaked variable I guess
-# _PROMPT_RET is also explicitly unset by us, but, again, there's no way to compensate for that.
-# We *HAVE* to capture $? on the first line of _PS1_COMMAND in order to use it at all
-# Meaning we have to overwrite *SOMETHING* in order to preserve that exit code
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
-    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-    alias ls='ls -AF --color=auto'
-    #alias dir='dir --color=auto'
-    #alias vdir='vdir --color=auto'
+  if [ -r ~/.dircolors ]; then
+    eval "$(dircolors -b ~/.dircolors)"
+  else
+    eval "$(dircolors -b)"
+  fi
+  alias ls='ls -AF --color=auto'
+  #alias dir='dir --color=auto'
+  #alias vdir='vdir --color=auto'
 
-    alias grep='grep --color=auto'
-    alias fgrep='fgrep --color=auto'
-    alias egrep='egrep --color=auto'
+  alias grep='grep --color=auto'
+  alias fgrep='fgrep --color=auto'
+  alias egrep='egrep --color=auto'
 fi
 
 # colored GCC warnings and errors
@@ -188,26 +191,100 @@ alias l='ls -CAF'
 # See /usr/share/doc/bash-doc/examples in the bash-doc package.
 
 if [ -f ~/.bash_aliases ]; then
-    . ~/.bash_aliases
+  # shellcheck disable=SC1090 # aliases are per-user, so this *can't* be "constant"
+  . ~/.bash_aliases
 fi
+
+# "Complex" alias definitions
+
+gitinit() {
+  local inrepo repoexists repodir shouldinit f i fl f1 f2 remoteret
+  for f in "$@"; do
+    case "$f" in
+      -*)
+        for (( i=0; i<${#f}; i++ )); do
+          fl="${f:$i:1}"
+          case $fl in
+            -) ;;
+            f) f1=1;;
+            r) f2=1;;
+            *)
+              printf 'Bad flag: "%s"\n' "$fl" >&2
+              return 1
+          esac
+        done
+        ;;
+       *)
+        printf 'Bad argument: "%s"\n' "$f" >&2
+        return 1
+        ;;
+    esac
+  done
+  inrepo=$(! git rev-parse --is-inside-work-tree 2>/dev/null)
+  repoexists=$?
+  if [ "$repoexists" != 0 ] && [ "$inrepo" == "true" ]; then
+    repodir=" in $(git rev-parse --show-toplevel)"
+  fi
+  if [ "$repoexists" == 0 ] || [ -v f1 ];then
+    if [ "$repoexists" != 0 ];then
+      printf "Initing repo even though a git repo already exists%s\n" "$repodir" >&2
+    fi
+    shouldinit=1
+  fi
+  if [ -v shouldinit ]; then
+    git init && git commit --allow-empty -m 'Inital Commit'
+    if [ -v f2 ];then
+      adddefaultremote
+      remoteret=$?
+      if [ "$remoteret" == 0 ]; then
+        git push --set-upstream origin
+        remoteret=$?
+      fi
+      return $remoteret
+    fi
+  else
+    printf "Refusing to re-init existing repo%s\n" "$repodir" >&2
+    return 1
+  fi
+}
+
+adddefaultremote() {
+  local dir
+  dir=$(pwd)
+  git remote add origin "ssh://git@forgejo-local/firepup650/${dir##*/}.git"
+}
+
+# See: https://bgp.tools/kb/api
+cwhois() {
+  whois -h bgp.tools " -v $*"
+}
+
+git-file-sizes() {
+  # Taken from: https://stackoverflow.com/a/42544963
+  git rev-list --objects --all --missing=print | \
+  git cat-file --batch-check='%(objecttype) %(objectname) %(objectsize) %(rest)' | \
+  sed -n 's/^blob //p' | \
+  sort --numeric-sort --key=2 | \
+  numfmt --field=2 --to=iec-i --suffix=B --padding=7 --round=nearest
+}
 
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).
 if ! shopt -oq posix; then
   if [ -f /usr/share/bash-completion/bash_completion ]; then
+    # shellcheck disable=SC1091 # This is provided by the system, we don't need to check it
     . /usr/share/bash-completion/bash_completion
   elif [ -f /etc/bash_completion ]; then
+    # shellcheck disable=SC1091 # This is provided by the system, we don't need to check it
     . /etc/bash_completion
   fi
 fi
 
 export QT_QPA_PLATFORMTHEME=qt6ct
 
-git-file-sizes() {
-  # Taken from: https://stackoverflow.com/a/42544963
-  git rev-list --objects --all --missing=print | git cat-file --batch-check='%(objecttype) %(objectname) %(objectsize) %(rest)' | sed -n 's/^blob //p'  | sort --numeric-sort --key=2 | $(command -v gnumfmt || echo numfmt) --field=2 --to=iec-i --suffix=B --padding=7 --round=nearest
-}
+# shellcheck disable=SC1091 # I shellcheck this file as part of that repo (also, since I call shellcheck from nano, I can't exactly add a -x flag)
+. "$HOME/projects/misc-bash-scripts/apt-cache-parser.sh"
 
 if [ "$(ps otty= $$)" == "tty7" ];then
   exec startx

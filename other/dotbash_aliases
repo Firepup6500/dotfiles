@@ -51,3 +51,6 @@ alias untvsetup="xrandr --auto && xset dpms && xset s on && xinput map-to-output
 alias fucking="sudo"
 alias no="yes n"
 alias diff="diff -u --color"
+alias fetch="fastfetch -l none --pipe --structure-disabled break:colors"
+alias hyfetchall="hyfetch --args='-c all'"
+alias fetchall="fastfetch -c all -l none --pipe --structure-disabled break:colors"
